@@ -1,3 +1,4 @@
+import { Developer } from './../developers/entities/developer.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
@@ -19,8 +20,9 @@ export class LevelsService {
   }
 
   async findAll(options: IPaginationOptions, busca = null): Promise<Pagination<Level>> {
-    const queryBuilder = this.levelRepository.createQueryBuilder('l');
-    queryBuilder.orderBy('l.id', 'ASC');
+    const queryBuilder = this.levelRepository.createQueryBuilder('l')
+    .leftJoinAndMapMany("l.desenvolvedores", Developer, 'developer', 'developer.nivel = l.id')
+    .orderBy('l.id', 'ASC');
     if(busca){
       queryBuilder.where("l.nivel like :busca", {busca: '%' + busca + '%'}).getMany();
     }

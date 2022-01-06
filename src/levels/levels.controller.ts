@@ -1,3 +1,4 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query, HttpCode, Res, HttpStatus } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -7,6 +8,7 @@ import { LevelsService } from './levels.service';
 import { Response } from 'express';
 
 @Controller('nivel')
+@ApiTags('nivel')
 export class LevelsController {
 
   constructor(private levelsService: LevelsService) {}

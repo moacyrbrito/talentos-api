@@ -5,8 +5,10 @@ import { DevelopersService } from './developers.service';
 import { DeveloperDto } from './dto/developer.dto';
 import { Developer } from './entities/developer.entity';
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('desenvolvedor')
+@ApiTags('desenvolvedor')
 export class DevelopersController {
 
   constructor(private developersService: DevelopersService) {}
