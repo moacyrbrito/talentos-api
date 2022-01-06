@@ -7,7 +7,7 @@ import { Developer } from './entities/developer.entity';
 
 @Injectable()
 export class DevelopersService {
-  
+
   constructor(
     @InjectRepository(Developer)
     private levelRepository: Repository<Developer>){
@@ -18,7 +18,7 @@ export class DevelopersService {
   }
 
   async findAll(options: IPaginationOptions, busca = null): Promise<Pagination<Developer>> {
-    const queryBuilder = this.levelRepository.createQueryBuilder('d');
+    const queryBuilder = this.levelRepository.createQueryBuilder('d').leftJoinAndSelect("d.nivel", "nivel");
     queryBuilder.orderBy('d.id', 'ASC');
     if(busca){
       queryBuilder.where("d.nome like :busca", {busca: '%' + busca + '%'}).getMany();
@@ -27,7 +27,7 @@ export class DevelopersService {
   }
 
   async findOne(id: number) {
-    return await this.levelRepository.findOne(id);
+    return await this.levelRepository.findOne(id ,{ relations: ['nivel']});
   }
 
   async update(id: number, level: DeveloperDto): Promise<any> {
